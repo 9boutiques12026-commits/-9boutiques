@@ -32,7 +32,7 @@ export default async function ProduitPage({ params }: { params: { slug: string }
           <div className="flex flex-col justify-center">
             <p className="badge">{produit.boutique.nom}</p>
             <h1 className="mt-5 font-display text-5xl leading-none text-forest-900">{produit.nom}</h1>
-            <p className="mt-5 text-xl text-forest-800">{Number(produit.prix).toFixed(2)} €</p>
+            <p className="mt-5 text-xl text-forest-800">{Number(produit.prix).toLocaleString("fr-FR")} FCFA</p>
             <p className="mt-8 max-w-lg leading-7 text-forest-800/75">{produit.description || "Une pièce pensée pour traverser les saisons avec justesse."}</p>
             <div className="mt-8 flex items-center gap-3 text-sm text-forest-800/70"><span className="h-2 w-2 rounded-full bg-forest-500" /> {produit.stock > 0 ? `${produit.stock} pièces disponibles` : "Rupture de stock"}</div>
             <AddToCartButton product={{ id: produit.id, name: produit.nom, price: Number(produit.prix), image: images[0].url }} disabled={produit.stock < 1} />

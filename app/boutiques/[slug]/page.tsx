@@ -42,7 +42,7 @@ export default async function BoutiquePage({ params }: { params: { slug: string 
               </div>
               <div className="mt-4 flex items-start justify-between gap-4">
                 <div><h2 className="font-display text-2xl text-forest-900">{produit.nom}</h2><p className="mt-1 text-sm text-forest-800/65">{produit.stock > 0 ? "Disponible" : "Épuisé"}</p></div>
-                <p className="text-sm font-medium text-forest-800">{Number(produit.prix).toFixed(2)} €</p>
+                <p className="text-sm font-medium text-forest-800">{Number(produit.prix).toLocaleString("fr-FR")} FCFA</p>
               </div>
               <span className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-forest-700 opacity-0 transition group-hover:opacity-100">Découvrir <ArrowRight className="h-3.5 w-3.5" /></span>
             </Link>

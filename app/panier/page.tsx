@@ -39,12 +39,12 @@ export default function PanierPage() {
             <div className="divide-y divide-forest-700/10 rounded-[2rem] border border-forest-700/10 bg-ivory-50 px-6">
               {items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-4 py-6">
-                  <div><h2 className="font-display text-2xl text-forest-900">{item.name}</h2><p className="mt-1 text-sm text-forest-800/65">{item.price.toFixed(2)} €</p></div>
+                  <div><h2 className="font-display text-2xl text-forest-900">{item.name}</h2><p className="mt-1 text-sm text-forest-800/65">{item.price.toLocaleString("fr-FR")} FCFA</p></div>
                   <div className="flex items-center gap-3"><button aria-label="Diminuer" onClick={() => update(item.id, -1)} className="rounded-full border border-forest-700/15 p-2"><Minus className="h-4 w-4" /></button><span className="w-5 text-center">{item.quantity}</span><button aria-label="Augmenter" onClick={() => update(item.id, 1)} className="rounded-full border border-forest-700/15 p-2"><Plus className="h-4 w-4" /></button><button aria-label="Supprimer" onClick={() => remove(item.id)} className="ml-2 text-forest-800/60"><Trash2 className="h-4 w-4" /></button></div>
                 </div>
               ))}
             </div>
-            <aside className="h-fit rounded-[2rem] bg-forest-900 p-7 text-ivory-50"><p className="text-xs uppercase tracking-[0.2em] text-ivory-100/60">Total</p><p className="mt-3 font-display text-5xl">{total.toFixed(2)} €</p><Button className="mt-8 w-full" variant="secondary">Passer commande</Button></aside>
+            <aside className="h-fit rounded-[2rem] bg-forest-900 p-7 text-ivory-50"><p className="text-xs uppercase tracking-[0.2em] text-ivory-100/60">Total</p><p className="mt-3 font-display text-5xl">{total.toLocaleString("fr-FR")} FCFA</p><Button className="mt-8 w-full" variant="secondary">Passer commande</Button></aside>
           </div>
         )}
       </main>
