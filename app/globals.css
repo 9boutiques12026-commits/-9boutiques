@@ -45,4 +45,123 @@ h6 {
   .badge {
     @apply inline-flex items-center rounded-full border border-forest-700/10 bg-ivory-50 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-forest-700;
   }
+
+  .admin-shell {
+    @apply min-h-screen bg-[#f7f8f9] text-slate-900;
+  }
+
+  .admin-sidebar {
+    @apply fixed inset-y-0 left-0 z-20 flex w-64 flex-col border-r border-slate-200 bg-white px-4 py-6;
+  }
+
+  .admin-brand {
+    @apply flex items-center gap-3 px-3 text-slate-900;
+  }
+
+  .admin-brand-mark {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 font-serif text-lg text-white;
+  }
+
+  .admin-brand strong,
+  .admin-sidebar-footer strong {
+    @apply block text-sm font-semibold;
+  }
+
+  .admin-brand small,
+  .admin-sidebar-footer small {
+    @apply mt-0.5 block text-[10px] text-slate-400;
+  }
+
+  .admin-nav-item {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] text-slate-500 transition hover:bg-slate-50 hover:text-slate-900;
+  }
+
+  .admin-nav-active {
+    @apply bg-slate-100 font-semibold text-slate-900;
+  }
+
+  .admin-sidebar-footer {
+    @apply mt-auto flex items-center gap-3 border-t border-slate-100 px-3 pt-5;
+  }
+
+  .admin-avatar {
+    @apply flex h-8 w-8 items-center justify-center rounded-full bg-[#e7ddd0] text-[10px] font-semibold text-slate-700;
+  }
+
+  .admin-main {
+    @apply ml-64 min-h-screen px-10 py-8 xl:px-14;
+  }
+
+  .admin-topbar {
+    @apply flex items-end justify-between border-b border-slate-200 pb-7;
+  }
+
+  .admin-topbar h1 {
+    @apply mt-2 font-sans text-3xl font-semibold tracking-[-0.04em] text-slate-900;
+  }
+
+  .admin-eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400;
+  }
+
+  .admin-back {
+    @apply text-xs font-medium text-slate-500 hover:text-slate-900;
+  }
+
+  .admin-card {
+    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(15,23,42,0.025)];
+  }
+
+  .admin-label {
+    @apply text-xs font-semibold text-slate-700;
+  }
+
+  .input-suffix {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold uppercase tracking-wider text-slate-400;
+  }
+
+  .upload-zone {
+    @apply flex min-h-56 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50/70 px-5 text-center transition hover:border-slate-500 hover:bg-slate-50;
+  }
+
+  .size-chip {
+    @apply min-w-11 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-500 transition hover:border-slate-400;
+  }
+
+  .size-chip-active {
+    @apply border-slate-900 bg-slate-900 text-white;
+  }
+
+  .color-dot {
+    @apply h-5 w-5 rounded-full border border-slate-200 ring-2 ring-transparent ring-offset-2;
+  }
+
+  .color-dot-active {
+    @apply ring-slate-900;
+  }
+
+  .status-option {
+    @apply flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 px-3 py-3 text-xs text-slate-600 transition hover:border-slate-400;
+  }
+
+  .status-option-active {
+    @apply border-slate-900 bg-slate-50;
+  }
+
+  .status-option input {
+    @apply accent-slate-900;
+  }
+
+  .status-option strong,
+  .status-option small {
+    @apply block;
+  }
+
+  .status-option small {
+    @apply mt-0.5 text-[10px] text-slate-400;
+  }
+
+  .admin-actions {
+    @apply fixed bottom-0 left-64 right-0 z-10 flex items-center justify-between border-t border-slate-200 bg-white/95 px-10 py-4 backdrop-blur xl:px-14;
+  }
 }
