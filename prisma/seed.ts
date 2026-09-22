@@ -40,6 +40,69 @@ async function main() {
       await prisma.boutique.create({ data: boutique });
     }
   }
+
+  const catalogue = [
+    {
+      boutiqueSlug: "lune-atelier",
+      nom: "Jaguar Power",
+      slug: "jaguar-power",
+      description: "Sachets Jaguar Power, disponible en livraison discrète.",
+      prix: 5000,
+      stock: 20,
+      image: "/produits/article-01.jpg",
+    },
+    {
+      boutiqueSlug: "velours-dune",
+      nom: "Culotte Jean",
+      slug: "culotte-jean",
+      description: "Culotte jean délavée, coupe confortable pour le quotidien.",
+      prix: 7000,
+      stock: 10,
+      image: "/produits/article-07.jpg",
+    },
+    {
+      boutiqueSlug: "miroir-cuir",
+      nom: "Jean Gros Bas",
+      slug: "jean-gros-bas",
+      description: "Jean gros bas délavé, coupe ample et style affirmé.",
+      prix: 12000,
+      stock: 10,
+      image: "/produits/article-09.jpg",
+    },
+    {
+      boutiqueSlug: "lune-atelier",
+      nom: "Gode vibrant",
+      slug: "gode-vibrant",
+      description: "Gode vibrant proposé à l’unité, avec emballage discret.",
+      prix: 15000,
+      stock: 8,
+      image: "/produits/article-24.jpg",
+    },
+    {
+      boutiqueSlug: "lune-atelier",
+      nom: "Huile parfumée",
+      slug: "huile-parfumee",
+      description: "Huile parfumée proposée à l’unité.",
+      prix: 10000,
+      stock: 10,
+      image: "/produits/article-06.jpg",
+    },
+  ];
+
+  for (const item of catalogue) {
+    const boutique = await prisma.boutique.findUnique({ where: { slug: item.boutiqueSlug } });
+    if (!boutique) continue;
+    const product = await prisma.produit.upsert({
+      where: { slug: item.slug },
+      update: { nom: item.nom, description: item.description, prix: item.prix, stock: item.stock, boutiqueId: boutique.id },
+      create: { nom: item.nom, slug: item.slug, description: item.description, prix: item.prix, stock: item.stock, boutiqueId: boutique.id },
+    });
+    await prisma.imageProduit.upsert({
+      where: { id: `${product.id}-cover` },
+      update: { url: item.image, ordre: 0 },
+      create: { id: `${product.id}-cover`, produitId: product.id, url: item.image, ordre: 0 },
+    });
+  }
 }
 
 main()
