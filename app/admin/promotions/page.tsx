@@ -1,0 +1,9 @@
+import { AdminSection } from "@/app/admin/admin-section";
+import { prisma } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+
+export default async function PromotionsPage() {
+  const produits = await prisma.produit.findMany({ include: { boutique: true }, orderBy: { createdAt: "desc" } });
+  return <AdminSection active="Promotions" eyebrow="Merchandising / Promotions" title="Promotions"><div className="mt-8 rounded-xl border border-slate-200 bg-white p-6"><div className="flex items-end justify-between border-b border-slate-100 pb-5"><div><h2 className="text-lg font-semibold text-slate-900">Prix promotionnels</h2><p className="mt-1 text-xs text-slate-500">Suivez les articles en promotion dans votre catalogue.</p></div><span className="text-xs text-slate-400">{produits.filter((p) => p.prixPromo).length} promotion(s)</span></div><div className="mt-4 divide-y divide-slate-100">{produits.map((produit) => <div key={produit.id} className="flex flex-wrap items-center justify-between gap-4 py-4"><div><p className="font-medium text-slate-900">{produit.nom}</p><p className="text-xs text-slate-400">{produit.boutique.nom}</p></div><div className="text-right"><p className="text-sm font-semibold text-slate-900">{Number(produit.prixPromo ?? produit.prix).toLocaleString("fr-FR")} FCFA</p>{produit.prixPromo && <p className="text-xs text-slate-400 line-through">{Number(produit.prix).toLocaleString("fr-FR")} FCFA</p>}</div><span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${produit.prixPromo ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-500"}`}>{produit.prixPromo ? "Active" : "Aucune"}</span></div>)}{!produits.length && <p className="py-10 text-center text-sm text-slate-500">Aucun produit à promouvoir.</p>}</div></div></AdminSection>;
+}
