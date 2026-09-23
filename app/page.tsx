@@ -21,6 +21,14 @@ export default function HomePage() {
   const [added, setAdded] = useState<string[]>([]);
 
   function addToCart(id: string) {
+    const product = products.find((item) => item.id === id);
+    if (!product) return;
+    const current = JSON.parse(localStorage.getItem("9boutiques-cart") || "[]") as Array<{ id: string; name: string; price: number; image: string; quantity: number }>;
+    const existing = current.find((item) => item.id === id);
+    if (existing) existing.quantity += 1;
+    else current.push({ id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+    localStorage.setItem("9boutiques-cart", JSON.stringify(current));
+    window.dispatchEvent(new Event("9boutiques-cart-updated"));
     setAdded((current) => current.includes(id) ? current : [...current, id]);
     window.setTimeout(() => setAdded((current) => current.filter((item) => item !== id)), 1500);
   }
