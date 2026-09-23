@@ -11,10 +11,15 @@ const ligneSchema = z.object({
 });
 
 const commandeSchema = z.object({
-  utilisateurId: z.string().min(1),
-  statut: z.enum(["en_attente", "confirme", "expedie", "livre", "annule"]).optional(),
-  total: z.number().positive(),
-  lignes: z.array(ligneSchema).min(1),
+  nomClient: z.string().min(2, "Le nom est requis."),
+  telephone: z.string().min(8, "Le numéro de téléphone est requis."),
+  adresse: z.string().min(3, "L’adresse de livraison est requise."),
+  ville: z.string().min(2, "La ville ou commune est requise."),
+  modePaiement: z
+    .enum(["especes_livraison", "wave", "orange_money", "mtn_momo", "whatsapp"])
+    .default("especes_livraison"),
+  notes: z.string().optional().nullable(),
+  lignes: z.array(ligneSchema).min(1, "Le panier ne peut pas être vide."),
 });
 
 export async function GET() {
@@ -24,6 +29,7 @@ export async function GET() {
         utilisateur: true,
         lignes: { include: { produit: true } },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(commandes, { status: 200 });
@@ -38,7 +44,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await getCurrentSession();
-    if (!session?.user?.id) return NextResponse.json({ error: "Connectez-vous pour passer commande." }, { status: 401 });
     const body = await request.json();
     const parsed = commandeSchema.safeParse(body);
 
@@ -49,11 +54,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const productIds = parsed.data.lignes.map((ligne) => ligne.produitId);
+    const { nomClient, telephone, adresse, ville, modePaiement, notes, lignes: rawLignes } = parsed.data;
+
+    const productIds = rawLignes.map((ligne) => ligne.produitId);
     const produits = await prisma.produit.findMany({ where: { id: { in: productIds } } });
     const productMap = new Map(produits.map((produit) => [produit.id, produit]));
     let total = 0;
-    const lignes = parsed.data.lignes.map((ligne) => {
+    const lignes = rawLignes.map((ligne) => {
       const produit = productMap.get(ligne.produitId);
       if (!produit) throw new Error("Produit introuvable.");
       if (produit.stock < ligne.quantite) throw new Error(`Stock insuffisant pour ${produit.nom}.`);
@@ -67,8 +74,19 @@ export async function POST(request: Request) {
         await transaction.produit.update({ where: { id: ligne.produitId }, data: { stock: { decrement: ligne.quantite } } });
       }
       return transaction.commande.create({
-        data: { utilisateurId: session.user.id, statut: "en_attente", total, lignes: { create: lignes } },
-        include: { lignes: true },
+        data: {
+          utilisateurId: session?.user?.id ?? null,
+          nomClient,
+          telephone,
+          adresse,
+          ville,
+          modePaiement,
+          notes: notes || null,
+          statut: "en_attente",
+          total,
+          lignes: { create: lignes },
+        },
+        include: { lignes: { include: { produit: true } } },
       });
     });
 

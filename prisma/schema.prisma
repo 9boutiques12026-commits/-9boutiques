@@ -82,13 +82,19 @@ model Utilisateur {
 }
 
 model Commande {
-  id          String          @id @default(cuid())
-  utilisateurId String
-  statut      CommandeStatut  @default(en_attente)
-  total       Decimal         @db.Decimal(10, 2)
-  createdAt   DateTime        @default(now())
-  utilisateur Utilisateur     @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
-  lignes      LigneCommande[]
+  id            String          @id @default(cuid())
+  utilisateurId String?
+  nomClient     String?
+  telephone     String?
+  adresse       String?
+  ville         String?
+  modePaiement  String          @default("especes_livraison")
+  notes         String?
+  statut        CommandeStatut  @default(en_attente)
+  total         Decimal         @db.Decimal(10, 2)
+  createdAt     DateTime        @default(now())
+  utilisateur   Utilisateur?    @relation(fields: [utilisateurId], references: [id], onDelete: SetNull)
+  lignes        LigneCommande[]
 
   @@index([utilisateurId])
   @@index([statut])
