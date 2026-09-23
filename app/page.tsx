@@ -1,118 +1,57 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, ShoppingBag } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/shared/header";
-import { prisma } from "@/lib/db";
 
-async function getBoutiques() {
-  return prisma.boutique.findMany({
-    include: {
-      produits: {
-        include: {
-          images: {
-            orderBy: { ordre: "asc" },
-          },
-        },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
-}
+const products = [
+  { id: "chemise-premium", name: "Chemise Premium", category: "Homme", price: 25000, image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=900&q=85", badge: "Nouveau", colors: ["#eee8dd", "#1a1a1a", "#af8066"] },
+  { id: "derby-cuir", name: "Derby Cuir Essential", category: "Homme", price: 29500, image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=900&q=85", badge: "Nouveau", colors: ["#1a1a1a", "#795b42"] },
+  { id: "jean-urban", name: "Jean Urban", category: "Homme", price: 22000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=85", badge: "", colors: ["#7990a8", "#202b39", "#d7d0c4"] },
+  { id: "robe-studio", name: "Robe Studio", category: "Femme", price: 28000, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=900&q=85", badge: "Nouveau", colors: ["#151515", "#b89782", "#e3d9ca"] },
+  { id: "tshirt-essential", name: "T-shirt Essential", category: "Mixte", price: 15000, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85", badge: "", colors: ["#f4f1ec", "#1b1b1b", "#6d7568"] },
+  { id: "veste-premium", name: "Veste Premium", category: "Homme", price: 36000, oldPrice: 40000, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=900&q=85", badge: "-10%", colors: ["#161616", "#8c7965"] },
+];
 
-export default async function HomePage() {
-  const boutiques = await getBoutiques();
+export default function HomePage() {
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [added, setAdded] = useState<string[]>([]);
+
+  function addToCart(id: string) {
+    setAdded((current) => current.includes(id) ? current : [...current, id]);
+    window.setTimeout(() => setAdded((current) => current.filter((item) => item !== id)), 1500);
+  }
 
   return (
-    <>
+    <div className="min-h-screen bg-white text-black">
       <Header />
-      <main className="container-shell pb-20 pt-10">
-        <section className="grid gap-8 rounded-[2.25rem] border border-forest-700/10 bg-forest-900 px-6 py-10 text-ivory-50 shadow-luxe md:grid-cols-[1.3fr_0.7fr] md:px-10 md:py-16">
-          <div className="flex flex-col justify-center">
-            <span className="badge border-ivory-100/20 bg-transparent text-ivory-100">
-              <Sparkles className="mr-2 h-3.5 w-3.5" />
-              Mode de saison
-            </span>
-            <h1 className="mt-6 max-w-xl font-display text-5xl leading-none md:text-7xl">
-              Ne cherchez plus. Trouvez votre signature.
-            </h1>
-            <p className="mt-5 max-w-lg text-base text-ivory-100/80 md:text-lg">
-              Neuf boutiques indépendantes, une seule adresse pour découvrir les pièces qui
-              racontent votre style.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button variant="default" asChild>
-                <Link href="#boutiques">Découvrir les boutiques</Link>
-              </Button>
-              <Button variant="secondary" asChild>
-                <Link href="/boutiques">Voir les collections</Link>
-              </Button>
+      <main>
+        <section className="relative mx-auto max-w-[1440px] px-8 pt-8">
+          <div className="relative min-h-[540px] overflow-hidden bg-[#d4d1ca]">
+            <Image src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=90" alt="Nouvelle collection 9boutiques" fill priority className="object-cover object-center" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/10 to-transparent" />
+            <button aria-label="Collection précédente" className="absolute left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 text-white transition hover:bg-white hover:text-black"><ArrowLeft className="h-4 w-4" /></button>
+            <button aria-label="Collection suivante" className="absolute right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 text-white transition hover:bg-white hover:text-black"><ArrowRight className="h-4 w-4" /></button>
+            <div className="absolute inset-y-0 left-0 flex max-w-xl flex-col justify-center px-12 text-white md:px-20">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#e1bc70]">Nouvelle collection</p>
+              <h1 className="mt-5 font-display text-5xl leading-[0.95] tracking-[-0.06em] md:text-7xl">Votre style.<br />Votre identité.</h1>
+              <p className="mt-6 max-w-md text-sm leading-6 text-white/80">Découvrez notre nouvelle collection de vêtements pour hommes et femmes, alliant confort, élégance et modernité.</p>
+              <Link href="/boutiques" className="mt-8 inline-flex w-fit items-center gap-3 bg-[#b18a45] px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#967238]">Découvrir la collection <ArrowRight className="h-4 w-4" /></Link>
             </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-forest-700 to-forest-900 p-4">
-            <div className="relative h-full min-h-[320px] overflow-hidden rounded-[1.5rem]">
-              <Image
-                src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80"
-                alt="Mode premium"
-                fill
-                className="object-cover opacity-80"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-forest-900 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-xs uppercase tracking-[0.3em] text-ivory-100/75">Edit</p>
-                <p className="mt-2 font-display text-3xl text-ivory-50">Le dress code de la saison</p>
-              </div>
-            </div>
+            <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2"><span className="h-1 w-10 bg-white" /><span className="h-1 w-3 bg-white/45" /><span className="h-1 w-3 bg-white/45" /></div>
           </div>
         </section>
 
-        <section id="boutiques" className="mt-20">
-          <div className="mb-8 flex items-end justify-between gap-4">
-            <div>
-              <p className="badge">Boutiques</p>
-              <h2 className="section-title mt-4">9 maisons, une curation exigeante</h2>
-            </div>
-            <Link href="/boutiques" className="inline-flex items-center gap-2 text-sm font-medium text-forest-800">
-              Voir toutes les boutiques <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {boutiques.map((boutique) => {
-              const firstImage = boutique.produits[0]?.images[0]?.url;
-
-              return (
-                <Link key={boutique.id} href={`/boutiques/${boutique.slug}`}>
-                  <Card className="group h-full overflow-hidden border-forest-700/10 bg-ivory-50/80 transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_28px_60px_rgba(18,39,31,0.12)]">
-                    <div className="relative h-80 overflow-hidden rounded-[1.5rem]">
-                      <Image
-                        src={firstImage || "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"}
-                        alt={boutique.nom}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <CardContent className="pt-5">
-                      <div className="flex items-center justify-between gap-4">
-                        <h3 className="text-3xl text-forest-900">{boutique.nom}</h3>
-                        <span className="rounded-full bg-gold-400/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-forest-800">
-                          {boutique.produits.length} pièces
-                        </span>
-                      </div>
-                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-forest-800/75">
-                        {boutique.description || "Collection premium pensée pour une garde-robe intime et singulière."}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
+        <section className="mx-auto max-w-[1440px] px-8 pb-20 pt-20">
+          <div className="flex items-end justify-between border-b border-black/10 pb-5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b18a45]">La sélection du moment</p><h2 className="mt-3 font-display text-4xl tracking-[-0.06em]">Nouveautés</h2></div><Link href="/boutiques" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-black/60 transition hover:text-[#b18a45]">Voir tout <ArrowRight className="h-4 w-4" /></Link></div>
+          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-6">
+            {products.map((product) => <article key={product.id} className="group min-w-0"><div className="relative aspect-[0.78] overflow-hidden bg-[#f2f1ef]"><Image src={product.image} alt={product.name} fill className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 flex gap-2">{product.badge && <span className={`px-2 py-1 text-[9px] font-semibold uppercase tracking-wider ${product.badge.startsWith("-") ? "bg-[#b18a45] text-white" : "bg-white text-black"}`}>{product.badge}</span>}</div><button aria-label={`Ajouter ${product.name} aux favoris`} onClick={() => setFavorites((current) => current.includes(product.id) ? current.filter((id) => id !== product.id) : [...current, product.id])} className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black transition hover:bg-white"><Heart className={`h-4 w-4 ${favorites.includes(product.id) ? "fill-[#b18a45] text-[#b18a45]" : ""}`} /></button></div><div className="pt-4"><div className="flex items-start justify-between gap-2"><div><h3 className="text-sm font-medium text-black">{product.name}</h3><p className="mt-1 text-[11px] text-black/50">{product.category}</p></div><div className="text-right text-xs"><p className="font-semibold">{product.price.toLocaleString("fr-FR")} FCFA</p>{product.oldPrice && <p className="mt-1 text-[10px] text-black/35 line-through">{product.oldPrice.toLocaleString("fr-FR")} FCFA</p>}</div></div><div className="mt-3 flex items-center gap-1.5">{product.colors.map((color) => <span key={color} className="h-3 w-3 rounded-full border border-black/10" style={{ backgroundColor: color }} />)}</div><button onClick={() => addToCart(product.id)} className="mt-4 flex w-full items-center justify-center gap-2 bg-black px-3 py-2.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#b18a45]"><ShoppingBag className="h-3.5 w-3.5" />{added.includes(product.id) ? "Ajouté" : "Ajouter au panier"}</button></div></article>)}
           </div>
         </section>
       </main>
-    </>
+    </div>
   );
 }
