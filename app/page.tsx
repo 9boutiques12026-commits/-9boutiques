@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Heart, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Header } from "@/components/shared/header";
 
@@ -17,11 +17,31 @@ const products = [
 ];
 
 export default function HomePage() {
+  const [catalogue, setCatalogue] = useState(products);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [added, setAdded] = useState<string[]>([]);
 
+  useEffect(() => {
+    fetch("/api/produits")
+      .then((response) => response.json())
+      .then((records) => {
+        if (!Array.isArray(records) || !records.length) return;
+        setCatalogue(records.slice(0, 6).map((product) => ({
+          id: product.id,
+          name: product.nom,
+          category: product.categorie || product.boutique?.nom || "Collection",
+          price: Number(product.prixPromo ?? product.prix),
+          oldPrice: product.prixPromo ? Number(product.prix) : undefined,
+          image: product.images?.[0]?.url || "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85",
+          badge: product.prixPromo ? "Promotion" : "Nouveau",
+          colors: product.couleurs?.length ? product.couleurs.map((color: string) => color) : ["#1a1a1a", "#eee8dd"],
+        })));
+      })
+      .catch(() => undefined);
+  }, []);
+
   function addToCart(id: string) {
-    const product = products.find((item) => item.id === id);
+    const product = catalogue.find((item) => item.id === id);
     if (!product) return;
     const current = JSON.parse(localStorage.getItem("9boutiques-cart") || "[]") as Array<{ id: string; name: string; price: number; image: string; quantity: number }>;
     const existing = current.find((item) => item.id === id);
@@ -56,7 +76,7 @@ export default function HomePage() {
         <section className="mx-auto max-w-[1440px] px-8 pb-20 pt-20">
           <div className="flex items-end justify-between border-b border-black/10 pb-5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b18a45]">La sélection du moment</p><h2 className="mt-3 font-display text-4xl tracking-[-0.06em]">Nouveautés</h2></div><Link href="/boutiques" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-black/60 transition hover:text-[#b18a45]">Voir tout <ArrowRight className="h-4 w-4" /></Link></div>
           <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-6">
-            {products.map((product) => <article key={product.id} className="group min-w-0"><div className="relative aspect-[0.78] overflow-hidden bg-[#f2f1ef]"><Image src={product.image} alt={product.name} fill className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 flex gap-2">{product.badge && <span className={`px-2 py-1 text-[9px] font-semibold uppercase tracking-wider ${product.badge.startsWith("-") ? "bg-[#b18a45] text-white" : "bg-white text-black"}`}>{product.badge}</span>}</div><button aria-label={`Ajouter ${product.name} aux favoris`} onClick={() => setFavorites((current) => current.includes(product.id) ? current.filter((id) => id !== product.id) : [...current, product.id])} className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black transition hover:bg-white"><Heart className={`h-4 w-4 ${favorites.includes(product.id) ? "fill-[#b18a45] text-[#b18a45]" : ""}`} /></button></div><div className="pt-4"><div className="flex items-start justify-between gap-2"><div><h3 className="text-sm font-medium text-black">{product.name}</h3><p className="mt-1 text-[11px] text-black/50">{product.category}</p></div><div className="text-right text-xs"><p className="font-semibold">{product.price.toLocaleString("fr-FR")} FCFA</p>{product.oldPrice && <p className="mt-1 text-[10px] text-black/35 line-through">{product.oldPrice.toLocaleString("fr-FR")} FCFA</p>}</div></div><div className="mt-3 flex items-center gap-1.5">{product.colors.map((color) => <span key={color} className="h-3 w-3 rounded-full border border-black/10" style={{ backgroundColor: color }} />)}</div><button onClick={() => addToCart(product.id)} className="mt-4 flex w-full items-center justify-center gap-2 bg-black px-3 py-2.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#b18a45]"><ShoppingBag className="h-3.5 w-3.5" />{added.includes(product.id) ? "Ajouté" : "Ajouter au panier"}</button></div></article>)}
+            {catalogue.map((product) => <article key={product.id} className="group min-w-0"><div className="relative aspect-[0.78] overflow-hidden bg-[#f2f1ef]"><Image src={product.image} alt={product.name} fill className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 flex gap-2">{product.badge && <span className={`px-2 py-1 text-[9px] font-semibold uppercase tracking-wider ${product.badge.startsWith("-") ? "bg-[#b18a45] text-white" : "bg-white text-black"}`}>{product.badge}</span>}</div><button aria-label={`Ajouter ${product.name} aux favoris`} onClick={() => setFavorites((current) => current.includes(product.id) ? current.filter((id) => id !== product.id) : [...current, product.id])} className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black transition hover:bg-white"><Heart className={`h-4 w-4 ${favorites.includes(product.id) ? "fill-[#b18a45] text-[#b18a45]" : ""}`} /></button></div><div className="pt-4"><div className="flex items-start justify-between gap-2"><div><h3 className="text-sm font-medium text-black">{product.name}</h3><p className="mt-1 text-[11px] text-black/50">{product.category}</p></div><div className="text-right text-xs"><p className="font-semibold">{product.price.toLocaleString("fr-FR")} FCFA</p>{product.oldPrice && <p className="mt-1 text-[10px] text-black/35 line-through">{product.oldPrice.toLocaleString("fr-FR")} FCFA</p>}</div></div><div className="mt-3 flex items-center gap-1.5">{product.colors.map((color) => <span key={color} className="h-3 w-3 rounded-full border border-black/10" style={{ backgroundColor: color.startsWith("#") ? color : "#1a1a1a" }} />)}</div><button onClick={() => addToCart(product.id)} className="mt-4 flex w-full items-center justify-center gap-2 bg-black px-3 py-2.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#b18a45]"><ShoppingBag className="h-3.5 w-3.5" />{added.includes(product.id) ? "Ajouté" : "Ajouter au panier"}</button></div></article>)}
           </div>
         </section>
       </main>

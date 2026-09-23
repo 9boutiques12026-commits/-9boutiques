@@ -6,6 +6,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/shared/header";
+import { CheckoutButton } from "@/app/panier/checkout-button";
 
 type CartItem = { id: string; name: string; price: number; quantity: number };
 
@@ -44,7 +45,7 @@ export default function PanierPage() {
                 </div>
               ))}
             </div>
-            <aside className="h-fit rounded-[2rem] bg-forest-900 p-7 text-ivory-50"><p className="text-xs uppercase tracking-[0.2em] text-ivory-100/60">Total</p><p className="mt-3 font-display text-5xl">{total.toLocaleString("fr-FR")} FCFA</p><Button className="mt-8 w-full" variant="secondary">Passer commande</Button></aside>
+            <aside className="h-fit rounded-[2rem] bg-forest-900 p-7 text-ivory-50"><p className="text-xs uppercase tracking-[0.2em] text-ivory-100/60">Total</p><p className="mt-3 font-display text-5xl">{total.toLocaleString("fr-FR")} FCFA</p><CheckoutButton items={items} total={total} /></aside>
           </div>
         )}
       </main>
