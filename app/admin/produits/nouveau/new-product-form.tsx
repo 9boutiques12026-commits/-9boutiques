@@ -64,7 +64,7 @@ export function NewProductForm({ boutiques }: { boutiques: Boutique[] }) {
     if (!validate()) return;
     setLoading(true);
     try {
-      const productResponse = await fetch("/api/produits", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ nom: values.nom.trim(), slug: `${values.nom.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`, description: values.description.trim(), prix: Number(values.prixPromo || values.prix), stock: Number(values.stock), boutiqueId: values.boutiqueId }) });
+      const productResponse = await fetch("/api/produits", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ nom: values.nom.trim(), slug: `${values.nom.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-")}-${Date.now()}`, description: values.description.trim(), prix: Number(values.prix), prixPromo: values.prixPromo ? Number(values.prixPromo) : null, stock: Number(values.stock), boutiqueId: values.boutiqueId, categorie: values.categorie || null, marque: values.marque || null, sku: values.sku || null, tailles: selectedSizes, couleurs: selectedColors, statut: values.statut }) });
       const productData = await productResponse.json();
       if (!productResponse.ok) throw new Error(productData.error || "Le produit n’a pas pu être créé.");
       for (const [index, preview] of previews.entries()) {

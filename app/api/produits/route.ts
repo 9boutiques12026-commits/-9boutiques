@@ -9,8 +9,15 @@ const produitSchema = z.object({
   slug: z.string().min(2),
   description: z.string().optional(),
   prix: z.number().positive(),
+  prixPromo: z.number().positive().optional().nullable(),
   stock: z.number().int().min(0),
   boutiqueId: z.string().min(1),
+  categorie: z.string().optional().nullable(),
+  marque: z.string().optional().nullable(),
+  sku: z.string().optional().nullable(),
+  tailles: z.array(z.string()).default([]),
+  couleurs: z.array(z.string()).default([]),
+  statut: z.enum(["brouillon", "publie"]).default("brouillon"),
 });
 
 export async function GET() {

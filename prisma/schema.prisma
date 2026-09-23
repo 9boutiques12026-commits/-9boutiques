@@ -21,6 +21,11 @@ enum CommandeStatut {
   annule
 }
 
+enum ProduitStatut {
+  brouillon
+  publie
+}
+
 model Boutique {
   id          String   @id @default(cuid())
   nom         String
@@ -39,7 +44,14 @@ model Produit {
   slug        String          @unique
   description String?
   prix        Decimal         @db.Decimal(10, 2)
+  prixPromo   Decimal?        @db.Decimal(10, 2)
   stock       Int             @default(0)
+  categorie   String?
+  marque      String?
+  sku         String?         @unique
+  tailles     String[]        @default([])
+  couleurs    String[]        @default([])
+  statut      ProduitStatut   @default(brouillon)
   boutiqueId  String
   createdAt   DateTime        @default(now())
   boutique    Boutique        @relation(fields: [boutiqueId], references: [id], onDelete: Cascade)
