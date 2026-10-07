@@ -16,6 +16,7 @@ import {
 import { prisma } from "@/lib/db";
 import { Header } from "@/components/shared/header";
 import { Button } from "@/components/ui/button";
+import { SITE } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -32,20 +33,17 @@ const PAYMENT_LABELS: Record<
   wave: {
     label: "Wave Mobile Money",
     icon: Smartphone,
-    instructions:
-      "Effectuez votre paiement instantané Wave vers le numéro +225 07 00 00 00 00 en mentionnant le numéro de commande en référence.",
+    instructions: `Effectuez votre paiement instantané Wave vers le numéro ${SITE.paiement.wave} en mentionnant le numéro de commande en référence.`,
   },
   orange_money: {
     label: "Orange Money",
     icon: Smartphone,
-    instructions:
-      "Effectuez votre transfert Orange Money vers le numéro +225 07 00 00 00 00 avec votre référence de commande.",
+    instructions: `Effectuez votre transfert Orange Money vers le numéro ${SITE.paiement.orangeMoney} avec votre référence de commande.`,
   },
   mtn_momo: {
     label: "MTN Mobile Money",
     icon: Smartphone,
-    instructions:
-      "Effectuez votre transfert MTN MoMo vers le numéro +225 05 00 00 00 00 avec votre référence de commande.",
+    instructions: `Effectuez votre transfert MTN MoMo vers le numéro ${SITE.paiement.mtnMomo} avec votre référence de commande.`,
   },
   whatsapp: {
     label: "Commande directe WhatsApp",
@@ -111,7 +109,7 @@ export default async function OrderConfirmationPage({
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
-                href={`https://wa.me/2250700000000?text=${whatsappMessage}`}
+                href={`https://wa.me/${SITE.whatsapp}?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white shadow-md transition hover:bg-emerald-700"

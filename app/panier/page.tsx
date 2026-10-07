@@ -55,7 +55,7 @@ export default function PanierPage() {
                   <h2 className="font-display text-xl text-forest-900">
                     Articles ({items.reduce((s, i) => s + i.quantity, 0)})
                   </h2>
-                  <Link href="/produits" className="text-xs text-forest-700 underline underline-offset-4">
+                  <Link href="/boutiques" className="text-xs text-forest-700 underline underline-offset-4">
                     Continuer vos achats
                   </Link>
                 </div>

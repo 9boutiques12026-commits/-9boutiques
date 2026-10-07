@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { SITE } from "@/lib/site";
 
 type CartItem = { id: string; name: string; price: number; quantity: number };
 
@@ -127,7 +128,7 @@ export function CheckoutForm({
         const msg = encodeURIComponent(
           `Bonjour 9boutiques,\n\nJe confirme ma commande #${data.id.slice(-6).toUpperCase()} :\n${recap}\n\n*Total : ${total.toLocaleString("fr-FR")} FCFA*\n*Nom :* ${form.nomClient}\n*Contact :* ${form.telephone}\n*Livraison :* ${form.adresse} (${form.ville})\n\nMerci !`,
         );
-        window.open(`https://wa.me/2250700000000?text=${msg}`, "_blank");
+        window.open(`https://wa.me/${SITE.whatsapp}?text=${msg}`, "_blank");
       }
 
       // Redirection vers la page de confirmation

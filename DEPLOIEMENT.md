@@ -2,6 +2,16 @@
 
 Ce guide explique comment publier 9boutiques sur GitHub puis le déployer sur Render avec une base PostgreSQL.
 
+## Coordonnées de la boutique (numéros, nom de l'admin)
+
+Tous les numéros affichés aux clients (WhatsApp, Wave, Orange Money, MTN MoMo) et
+l'identité affichée dans l'espace d'administration sont regroupés dans un seul
+fichier : [`lib/site.ts`](lib/site.ts).
+
+Ouvre ce fichier, remplace les valeurs marquées `← À REMPLACER` par tes vraies
+coordonnées, puis commit et push : Render redéploie automatiquement. Aucun autre
+fichier n'est à modifier.
+
 ## Pré-requis
 
 - Node.js 18.17 ou supérieur
