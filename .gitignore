@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# base PostgreSQL embarquée (données locales, jamais commitées)
+/.pgdata/

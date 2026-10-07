@@ -11,7 +11,9 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "admin:create": "node scripts/create-admin.mjs",
+    "email:test": "node scripts/test-email.mjs"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
@@ -22,6 +24,7 @@
     "lucide-react": "0.468.0",
     "next": "14.2.15",
     "next-auth": "4.24.7",
+    "nodemailer": "^6.9.16",
     "prisma": "5.22.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -29,11 +32,14 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@embedded-postgres/windows-x64": "^18.4.0-beta.17",
     "@types/bcryptjs": "2.4.1",
     "@types/node": "20.17.10",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "autoprefixer": "10.4.20",
+    "embedded-postgres": "^18.4.0-beta.17",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.15",
     "postcss": "8.4.49",

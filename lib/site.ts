@@ -9,21 +9,24 @@
 export const SITE = {
   // Nom de la boutique, affiché dans l'en-tête et les messages
   nom: "9boutiques",
+  slogan: "Élégance au quotidien",
 
   // Identité affichée dans l'espace d'administration
-  adminNom: "ZOKOU", // ← À REMPLACER par ton nom ou celui du gérant
-  adminInitiales: "ZK", // ← À REMPLACER (2 lettres, ex: "CO")
+  adminNom: "9boutiques",
+  adminInitiales: "9B",
 
   // Numéro WhatsApp au format INTERNATIONAL, sans "+" ni espaces.
-  // Exemple : 225 07 01 02 03 04  ->  "2250701020304"
-  whatsapp: "2250700000000", // ← À REMPLACER par ton vrai numéro WhatsApp
+  whatsapp: "2250709525031",
+  // Même numéro, format lisible pour l'affichage
+  whatsappAffiche: "+225 07 09 52 50 31",
 
-  // Numéros AFFICHÉS aux clients pour chaque moyen de paiement
-  // (format lisible, avec le +225). Remplace par tes vrais numéros marchands.
+  // Numéros AFFICHÉS aux clients pour chaque moyen de paiement.
+  // Laisse une chaîne VIDE ("") pour masquer un moyen de paiement
+  // tant que tu n'as pas de numéro marchand pour celui-ci.
   paiement: {
-    wave: "+225 07 00 00 00 00", // ← À REMPLACER
-    orangeMoney: "+225 07 00 00 00 00", // ← À REMPLACER
-    mtnMomo: "+225 05 00 00 00 00", // ← À REMPLACER
+    wave: "+225 07 09 52 50 31",
+    orangeMoney: "+225 07 09 52 50 31",
+    mtnMomo: "", // pas encore de numéro MTN fourni -> option masquée
   },
 } as const;
 

@@ -19,7 +19,16 @@ import { SITE } from "@/lib/site";
 
 type CartItem = { id: string; name: string; price: number; quantity: number };
 
-const PAYMENT_METHODS = [
+type PaymentMethod = {
+  id: string;
+  name: string;
+  description: string;
+  icon: typeof Banknote;
+  badge?: string;
+  numero?: string;
+};
+
+const PAYMENT_METHODS: PaymentMethod[] = [
   {
     id: "especes_livraison",
     name: "Espèces à la livraison",
@@ -30,30 +39,38 @@ const PAYMENT_METHODS = [
   {
     id: "wave",
     name: "Wave",
-    description: "Paiement mobile instantané sans frais via Wave.",
+    description: `Paiement mobile instantané sans frais vers ${SITE.paiement.wave}.`,
     icon: Smartphone,
     badge: "0% de frais",
+    numero: SITE.paiement.wave,
   },
   {
     id: "orange_money",
     name: "Orange Money",
-    description: "Transfert sécurisé vers notre compte marchand Orange Money.",
+    description: `Transfert sécurisé vers le compte marchand ${SITE.paiement.orangeMoney}.`,
     icon: Smartphone,
+    numero: SITE.paiement.orangeMoney,
   },
   {
     id: "mtn_momo",
     name: "MTN Mobile Money",
     description: "Paiement direct et rapide via MTN MoMo.",
     icon: Smartphone,
+    numero: SITE.paiement.mtnMomo,
   },
   {
     id: "whatsapp",
     name: "Commande directe WhatsApp",
-    description: "Finalisez votre commande et échangez directement avec le vendeur.",
+    description: `Finalisez votre commande et échangez directement avec le vendeur au ${SITE.whatsappAffiche}.`,
     icon: MessageSquare,
     badge: "Direct vendeur",
   },
 ];
+
+// N'affiche un moyen de paiement mobile que si un vrai numéro est configuré.
+const AVAILABLE_PAYMENT_METHODS = PAYMENT_METHODS.filter(
+  (method) => method.numero === undefined || method.numero.trim() !== "",
+);
 
 export function CheckoutForm({
   items,
@@ -252,7 +269,7 @@ export function CheckoutForm({
         </div>
 
         <div className="mt-6 grid gap-3">
-          {PAYMENT_METHODS.map((method) => {
+          {AVAILABLE_PAYMENT_METHODS.map((method) => {
             const Icon = method.icon;
             const isSelected = form.modePaiement === method.id;
 

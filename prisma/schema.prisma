@@ -79,6 +79,18 @@ model Utilisateur {
   role           Role      @default(client)
   createdAt      DateTime  @default(now())
   commandes      Commande[]
+  jetonsMotDePasse JetonMotDePasse[]
+}
+
+model JetonMotDePasse {
+  id        String      @id @default(cuid())
+  tokenHash String      @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime    @default(now())
+  user      Utilisateur @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Commande {

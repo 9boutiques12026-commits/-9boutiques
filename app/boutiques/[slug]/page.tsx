@@ -38,7 +38,7 @@ export default async function BoutiquePage({ params }: { params: { slug: string 
           {boutique.produits.map((produit) => (
             <Link key={produit.id} href={`/produits/${produit.slug}`} className="group">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-ivory-200">
-                <Image src={produit.images[0]?.url || "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80"} alt={produit.nom} fill className="object-cover transition duration-500 group-hover:scale-105" />
+                <Image src={produit.images[0]?.url || "/produits/article-01.jpg"} alt={produit.nom} fill className="object-cover transition duration-500 group-hover:scale-105" />
               </div>
               <div className="mt-4 flex items-start justify-between gap-4">
                 <div><h2 className="font-display text-2xl text-forest-900">{produit.nom}</h2><p className="mt-1 text-sm text-forest-800/65">{produit.stock > 0 ? "Disponible" : "Épuisé"}</p></div>

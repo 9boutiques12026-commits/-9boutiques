@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/shared/header";
 import { AddToCartButton } from "@/components/shared/add-to-cart-button";
+import { FavoriteButton } from "@/components/shared/favorite-button";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +19,7 @@ export default async function ProduitPage({ params }: { params: { slug: string }
     return <main className="container-shell py-20"><h1 className="section-title">Produit introuvable</h1><Button className="mt-8" asChild><Link href="/boutiques">Explorer les boutiques</Link></Button></main>;
   }
 
-  const images = produit.images.length ? produit.images : [{ id: "fallback", url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80", ordre: 0 }];
+  const images = produit.images.length ? produit.images : [{ id: "fallback", url: "/produits/article-01.jpg", ordre: 0 }];
 
   return (
     <>
@@ -31,7 +32,10 @@ export default async function ProduitPage({ params }: { params: { slug: string }
           </div>
           <div className="flex flex-col justify-center">
             <p className="badge">{produit.boutique.nom}</p>
-            <h1 className="mt-5 font-display text-5xl leading-none text-forest-900">{produit.nom}</h1>
+            <div className="mt-5 flex items-start justify-between gap-4">
+              <h1 className="font-display text-5xl leading-none text-forest-900">{produit.nom}</h1>
+              <FavoriteButton productId={produit.id} productName={produit.nom} />
+            </div>
             <p className="mt-5 text-xl text-forest-800">{Number(produit.prix).toLocaleString("fr-FR")} FCFA</p>
             <p className="mt-8 max-w-lg leading-7 text-forest-800/75">{produit.description || "Une pièce pensée pour traverser les saisons avec justesse."}</p>
             <div className="mt-8 flex items-center gap-3 text-sm text-forest-800/70"><span className="h-2 w-2 rounded-full bg-forest-500" /> {produit.stock > 0 ? `${produit.stock} pièces disponibles` : "Rupture de stock"}</div>

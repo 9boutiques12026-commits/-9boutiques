@@ -1,32 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/shared/header";
 import { CheckoutForm } from "@/app/panier/checkout-form";
-
-type CartItem = { id: string; name: string; price: number; quantity: number };
+import { useCart } from "@/lib/cart";
 
 export default function PanierPage() {
-  const [items, setItems] = useState<CartItem[]>([]);
-  useEffect(() => setItems(JSON.parse(localStorage.getItem("9boutiques-cart") || "[]")), []);
-  useEffect(() => localStorage.setItem("9boutiques-cart", JSON.stringify(items)), [items]);
+  const { items, updateQuantity: update, remove } = useCart();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  function update(id: string, delta: number) {
-    setItems((current) =>
-      current.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item,
-      ),
-    );
-  }
-
-  function remove(id: string) {
-    setItems((current) => current.filter((item) => item.id !== id));
-  }
 
   return (
     <>

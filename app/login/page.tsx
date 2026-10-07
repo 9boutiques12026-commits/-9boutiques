@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSession, signIn } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetOk, setResetOk] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.search.includes("reset=ok")) {
+      setResetOk(true);
+    }
+  }, []);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,6 +43,11 @@ export default function LoginPage() {
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={submit}>
+          {resetOk && (
+            <p role="status" className="rounded-2xl bg-forest-50 px-4 py-3 text-sm text-forest-800">
+              Votre mot de passe a bien été réinitialisé. Vous pouvez vous connecter.
+            </p>
+          )}
           {error && <p role="alert" className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
           <div>
             <label className="mb-2 block text-sm text-forest-800">Email</label>
@@ -49,7 +61,12 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm text-forest-800">Mot de passe</label>
+            <div className="mb-2 flex items-center justify-between">
+              <label className="block text-sm text-forest-800">Mot de passe</label>
+              <Link href="/mot-de-passe-oublie" className="text-xs font-medium text-forest-700 underline underline-offset-4 transition hover:text-gold-500">
+                Mot de passe oublié ?
+              </Link>
+            </div>
             <input
               type="password"
               value={password}
