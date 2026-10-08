@@ -13,7 +13,7 @@ export const SITE = {
 
   // Localisation de la boutique (ville + repère géographique)
   ville: "Bouaké",
-  situation: "Face Fromager",
+  situation: "au Fromager",
 
   // Identité affichée dans l'espace d'administration
   adminNom: "9boutiques",

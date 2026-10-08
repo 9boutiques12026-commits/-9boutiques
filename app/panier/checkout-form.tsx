@@ -219,7 +219,7 @@ export function CheckoutForm({
                 required
                 value={form.ville}
                 onChange={handleChange}
-                placeholder="Ex : Bouaké - Face Fromager, Sokoro, Air France..."
+                placeholder="Ex : Bouaké - au Fromager, Sokoro, Air France..."
                 className="w-full rounded-2xl border border-forest-700/15 bg-white py-3 pl-11 pr-4 text-sm text-forest-900 placeholder:text-forest-800/35 focus:border-forest-700 focus:outline-none focus:ring-1 focus:ring-forest-700"
               />
             </div>
