@@ -22,7 +22,7 @@ export function Header() {
       {/* Bandeau d'annonce : infos réelles de la boutique */}
       <div className="bg-forest-900 text-ivory-50">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-6 py-2 text-[10px] font-medium uppercase tracking-[0.18em] md:px-8">
-          <p className="hidden sm:block text-ivory-100/70">Livraison Abidjan &amp; toute la Côte d'Ivoire</p>
+          <p className="hidden sm:block text-ivory-100/70">Bouaké · Face Fromager — Livraison partout en Côte d'Ivoire</p>
           <p className="text-ivory-100/70">Paiement Wave · Orange Money · Espèces</p>
           <a
             href={whatsappLink("Bonjour 9boutiques !")}

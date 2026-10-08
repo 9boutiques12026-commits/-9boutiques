@@ -70,7 +70,7 @@ export default function HomePage() {
         <section className="mx-auto grid max-w-[1440px] gap-0 px-6 pt-6 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="flex flex-col justify-center py-14 lg:py-20 lg:pr-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-gold-500">
-              Maison de mode · Abidjan
+              Maison de mode · Bouaké
             </p>
             <h1 className="mt-6 font-display text-5xl leading-[0.98] tracking-[-0.05em] text-forest-900 md:text-6xl">
               Le denim qui vous

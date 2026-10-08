@@ -11,6 +11,10 @@ export const SITE = {
   nom: "9boutiques",
   slogan: "Élégance au quotidien",
 
+  // Localisation de la boutique (ville + repère géographique)
+  ville: "Bouaké",
+  situation: "Face Fromager",
+
   // Identité affichée dans l'espace d'administration
   adminNom: "9boutiques",
   adminInitiales: "9B",

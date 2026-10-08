@@ -84,7 +84,7 @@ export function CheckoutForm({
   const [form, setForm] = useState({
     nomClient: "",
     telephone: "",
-    ville: "Abidjan",
+    ville: "Bouaké",
     adresse: "",
     notes: "",
     modePaiement: "especes_livraison",
@@ -219,7 +219,7 @@ export function CheckoutForm({
                 required
                 value={form.ville}
                 onChange={handleChange}
-                placeholder="Ex : Abidjan - Cocody, Marcory..."
+                placeholder="Ex : Bouaké - Face Fromager, Sokoro, Air France..."
                 className="w-full rounded-2xl border border-forest-700/15 bg-white py-3 pl-11 pr-4 text-sm text-forest-900 placeholder:text-forest-800/35 focus:border-forest-700 focus:outline-none focus:ring-1 focus:ring-forest-700"
               />
             </div>
@@ -235,7 +235,7 @@ export function CheckoutForm({
               required
               value={form.adresse}
               onChange={handleChange}
-              placeholder="Ex : Angré 8ème tranche, face à la pharmacie..."
+              placeholder="Ex : quartier Koko, face à la pharmacie, un repère clair..."
               className="w-full rounded-2xl border border-forest-700/15 bg-white px-4 py-3 text-sm text-forest-900 placeholder:text-forest-800/35 focus:border-forest-700 focus:outline-none focus:ring-1 focus:ring-forest-700"
             />
           </div>
