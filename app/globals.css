@@ -165,3 +165,42 @@ h6 {
     @apply fixed bottom-0 left-64 right-0 z-10 flex items-center justify-between border-t border-slate-200 bg-white/95 px-10 py-4 backdrop-blur xl:px-14;
   }
 }
+
+/* ---------- Vie & matière : animations douces, naturel ---------- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ken-burns {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.delay-1 { animation-delay: 0.12s; }
+.delay-2 { animation-delay: 0.24s; }
+.delay-3 { animation-delay: 0.36s; }
+
+/* Le cliché du héro respire très lentement, comme une vraie photo de maison */
+.hero-photo {
+  animation: ken-burns 6.5s ease-out both;
+  will-change: transform;
+}
+
+/* Grain papier léger posé sur tout le site : rend le fond moins « plat » */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .hero-photo { animation: none; }
+}

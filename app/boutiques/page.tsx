@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Header } from "@/components/shared/header";
+import { Footer } from "@/components/shared/footer";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -87,6 +88,7 @@ export default async function BoutiquesPage() {
           </div>
         )}
       </main>
+      <Footer />
     </>
   );
 }

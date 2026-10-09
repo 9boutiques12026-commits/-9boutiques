@@ -6,6 +6,7 @@ import { ArrowRight, Heart, MessageCircle, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Header } from "@/components/shared/header";
+import { Footer } from "@/components/shared/footer";
 import { addToCart as addItemToCart } from "@/lib/cart";
 import { useFavorites } from "@/lib/favorites";
 import { SITE, whatsappLink } from "@/lib/site";
@@ -64,41 +65,58 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-ivory-50 text-forest-900">
+      <span className="grain-overlay" aria-hidden="true" />
       <Header />
       <main>
         {/* Héro : vraie photo produit + message de la maison */}
         <section className="mx-auto grid max-w-[1440px] gap-0 px-6 pt-6 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="flex flex-col justify-center py-14 lg:py-20 lg:pr-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-gold-500">
+            <p className="animate-fade-up text-[11px] font-semibold uppercase tracking-[0.32em] text-gold-500">
               Maison de mode · Bouaké
             </p>
-            <h1 className="mt-6 font-display text-5xl leading-[0.98] tracking-[-0.05em] text-forest-900 md:text-6xl">
+            <h1 className="animate-fade-up delay-1 mt-6 font-display text-5xl leading-[0.98] tracking-[-0.05em] text-forest-900 md:text-6xl">
               Le denim qui vous
               <br />
-              ressemble.
+              <span className="relative inline-block">
+                ressemble.
+                <svg
+                  className="absolute -bottom-2 left-0 h-3 w-full text-gold-500"
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M2 8 C 40 3, 80 10, 120 6 S 180 3, 198 7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
             </h1>
-            <p className="mt-6 max-w-md text-sm leading-7 text-forest-800/70">
+            <p className="animate-fade-up delay-2 mt-8 max-w-md text-sm leading-7 text-forest-800/70">
               Jeans, shorts et pièces sélectionnées à la main. Commandez en quelques
               minutes, payez par Wave, Orange Money ou à la livraison, partout en
               Côte d'Ivoire.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
+            <div className="animate-fade-up delay-3 mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href="/boutiques"
-                className="inline-flex items-center gap-3 bg-forest-900 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-ivory-50 transition hover:bg-forest-800"
+                className="group inline-flex items-center gap-3 bg-forest-900 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-ivory-50 shadow-luxe transition hover:bg-forest-800 hover:gap-4"
               >
-                Découvrir la collection <ArrowRight className="h-4 w-4" />
+                Découvrir la collection <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </Link>
               <a
                 href={whatsappLink(`Bonjour ${SITE.nom}, je souhaite commander.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-forest-900/20 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-900 transition hover:border-gold-500 hover:text-gold-500"
+                className="inline-flex items-center gap-2 border border-forest-900/20 bg-ivory-50/50 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-900 transition hover:border-gold-500 hover:text-gold-500"
               >
                 <MessageCircle className="h-4 w-4" /> Commander sur WhatsApp
               </a>
             </div>
-            <div className="mt-10 flex items-center gap-6 text-[11px] uppercase tracking-[0.16em] text-forest-800/50">
+            <div className="animate-fade-up delay-3 mt-10 flex items-center gap-6 text-[11px] uppercase tracking-[0.16em] text-forest-800/50">
               <span>Livraison rapide</span>
               <span className="h-3 w-px bg-forest-900/20" />
               <span>Paiement mobile</span>
@@ -107,15 +125,21 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative min-h-[380px] overflow-hidden bg-ivory-200 lg:min-h-[560px]">
+          <div className="relative my-6 min-h-[380px] overflow-hidden rounded-[2rem] bg-ivory-200 shadow-luxe lg:my-0 lg:min-h-[560px]">
             <Image
               src="/produits/article-11.jpg"
               alt="Short en denim 9boutiques"
               fill
               priority
-              className="object-cover object-center"
+              className="hero-photo object-cover object-center"
             />
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-forest-900/40 to-transparent" />
+            {/* liseré doré intérieur, façon passe-partout de galerie */}
+            <span className="pointer-events-none absolute inset-3 rounded-[1.5rem] border border-gold-400/40" />
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-forest-900/55 to-transparent" />
+            <div className="absolute bottom-6 left-6 rounded-full border border-ivory-100/30 bg-forest-900/70 px-4 py-2 backdrop-blur-sm">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-400">Nouvelle collection</p>
+              <p className="mt-0.5 text-xs text-ivory-50/90">Denim &amp; pièces sélectionnées</p>
+            </div>
           </div>
         </section>
 
@@ -234,6 +258,7 @@ export default function HomePage() {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

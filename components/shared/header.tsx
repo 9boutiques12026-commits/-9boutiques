@@ -6,6 +6,7 @@ import { Heart, MessageCircle, Search, ShoppingBag, UserRound } from "lucide-rea
 import { useCart } from "@/lib/cart";
 import { useFavorites } from "@/lib/favorites";
 import { SITE, whatsappLink } from "@/lib/site";
+import { Logo } from "@/components/shared/logo";
 
 const NAV_LINKS = [
   { label: "Accueil", href: "/" },
@@ -40,18 +41,8 @@ export function Header() {
       <div className="border-b border-forest-900/10 bg-ivory-50/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1440px] items-center gap-8 px-6 py-4 md:px-8">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center border border-gold-500/60 bg-forest-900 font-display text-xl text-gold-400 transition group-hover:bg-forest-800">
-              9
-            </span>
-            <span>
-              <span className="block font-display text-[24px] leading-none tracking-[-0.05em] text-forest-900">
-                {SITE.nom}
-              </span>
-              <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.3em] text-gold-500">
-                {SITE.slogan}
-              </span>
-            </span>
+          <Link href="/" className="group transition">
+            <Logo size={42} />
           </Link>
 
           {/* Navigation */}
